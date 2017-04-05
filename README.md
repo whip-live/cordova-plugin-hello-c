@@ -7,7 +7,12 @@ This plugin combines don/Cordova-plugin-hello and the hello-jni android NDK exam
 
 # usage
 
-use the following code to execute:
+- Clone the [test project](https://github.com/dpa99c/Cordova-Hello-JNI-Plugin-test)
+- Add Android and iOS platforms: `cordova platform add android && cordova platform add ios`
+- Run: `cordova run android` / `cordova run ios`
+
+
+or use the following code in your app to execute:
 ```
 var success = function (message) {
     alert(message);
@@ -20,7 +25,7 @@ var failure = function () {
 hello.greet("World", success, failure);
 ```
 
-# recompiling
+# recompiling Android
 
 If you modify the hello-jni.c file be sure to re-build using the ndk-build script to update the libhello-jni.so binaries.
 
