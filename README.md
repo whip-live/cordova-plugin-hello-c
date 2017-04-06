@@ -15,7 +15,9 @@ For iOS it uses the pure C source code in place alongside the Objective-C plugin
 - Add Android and iOS platforms: `cordova platform add android && cordova platform add ios`
 - Run: `cordova run android` / `cordova run ios`
 
-# recompiling for Android
+# Android
+
+## Recompiling
 
 If you modify the C source files, be sure to re-build using the ndk-build script to update the `libhelloc.so` binaries.
 
@@ -38,3 +40,15 @@ If you are editing the C source code of the plugin in place in the example proje
 - From the project root, remove and re-add the android platform to apply the plugin changes to the project
     `cordova platform rm android && cordova platform add android`
 
+## Debugging C/C++ in Android Studio
+
+- The Android NDK enables C/C++ source code to be debugged in Android Studio alongside Java.
+- To do so, the source code must be included but **not** the compiled libraries.
+- To debug this plugin in Android Studio do the following:
+    - Edit `plugin.xml` and comment out the source-file lines in the PRODUCTION block which include the compiled libraries
+    - Remove/re-add the plugin or Android platform in your project to update the plugin files in the Android platform project
+    - Open the Android platform project (`platforms/android`) in Android Studio
+    - Connect an Android device for debugging
+    - Use the Project Explorer to find and open one of the `.c` source files
+    - Place a breakpoint, for example on a `return` statement
+    - Select "Run" > "Debug ..." from the menu
