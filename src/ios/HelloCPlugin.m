@@ -17,12 +17,13 @@
 - (void)hello:(CDVInvokedUrlCommand*)command
 {
     //c_hello();
-    NSString* name = [[command arguments] objectAtIndex:0];
-    NSString* msg = [NSString stringWithFormat: @"Hello %@. iOS says: %s", name, c_hello()];
+    NSString* input = [[command arguments] objectAtIndex:0];
+    char* c_input = strdup([input UTF8String]);
+    NSString* output = [NSString stringWithFormat: @"iOS says: %s", c_hello(c_input)];
 
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK
-                               messageAsString:msg];
+                               messageAsString:output];
 
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }

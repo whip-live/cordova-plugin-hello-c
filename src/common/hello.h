@@ -8,5 +8,5 @@
 
 #include <stdio.h>
 
-char* c_hello();
+char* c_hello(char* input);
 #endif /* hello_h */

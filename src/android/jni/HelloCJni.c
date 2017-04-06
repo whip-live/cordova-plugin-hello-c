@@ -45,9 +45,10 @@ Java_com_example_HelloCJni_getArch( JNIEnv* env, jobject thiz )
 
 // Android JNI wrapper for cross-platform C implementation
 jstring
-Java_com_example_HelloCJni_hello( JNIEnv* env, jobject thiz )
+Java_com_example_HelloCJni_hello( JNIEnv* env, jobject thiz, jstring j_input)
 {
     // Call the cross-platform shared C function
-    char* result = c_hello();
-    return (*env)->NewStringUTF(env, result);
+    char* c_input = strdup((*env)->GetStringUTFChars(env, j_input, 0));
+    char* output = c_hello(c_input);
+    return (*env)->NewStringUTF(env, output);
 }

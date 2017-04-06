@@ -19,15 +19,15 @@ public class HelloCPlugin extends CordovaPlugin {
         try {
             if (action.equals("hello")) {
 
-                String jniString = HelloCJni.hello();
-                String name = data.getString(0);
-                String message = "Hello, " + name + ". Android says: " + jniString;
-                callbackContext.success(message);
+                String input = data.getString(0);
+                String jniOutput = HelloCJni.hello(input);
+                String output = "Android says: " + jniOutput;
+                callbackContext.success(output);
 
             } else if (action.equals("getArch")) {
-                String jniString = HelloCJni.getArch();
-                String message = "Android " + jniString;
-                callbackContext.success(message);
+                String jniOutput = HelloCJni.getArch();
+                String output = "Android " + jniOutput;
+                callbackContext.success(output);
 
             } else {
                 handleError("Invalid action");
