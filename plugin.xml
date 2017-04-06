@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-        id="Cordova-Hello-JNI-Plugin"
-        version="0.7.0">
+        id="cordova-plugin-hello-c"
+        version="1.0.0">
 
   <name>Hello</name>
 
@@ -9,43 +9,45 @@
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
-  <asset src="www/hello.js" target="js/hello.js"/>
+  <asset src="www/helloc.js" target="js/helloc.js"/>
 
-  <js-module src="www/hello.js" name="hello">
-    <clobbers target="hello" />
+  <js-module src="www/helloc.js" name="helloc">
+    <clobbers target="helloc" />
   </js-module>
 
   <platform name="android">
 
     <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="Hello">
-        <param name="android-package" value="com.example.plugin.Hello"/>
+      <feature name="HelloCPlugin">
+        <param name="android-package" value="com.example.HelloCPlugin"/>
       </feature>
     </config-file>
 
-    <source-file src="src/android/com/example/Hellojni/Hello.java" target-dir="src/com/example/plugin/"/>
-    <source-file src="src/android/com/example/Hellojni/HelloJni.java" target-dir="src/com/example/plugin/" />
+    <source-file src="src/android/HelloCPlugin.java" target-dir="src/com/example/"/>
+    <source-file src="src/android/HelloCJni.java" target-dir="src/com/example/" />
 
-    <source-file src="src/android/libs/arm64-v8a/libhello-jni.so" target-dir="libs/arm64-v8a/" />
-    <source-file src="src/android/libs/armeabi/libhello-jni.so" target-dir="libs/armeabi/" />
-    <source-file src="src/android/libs/armeabi-v7a/libhello-jni.so" target-dir="libs/armeabi-v7a/" />
-    <source-file src="src/android/libs/mips/libhello-jni.so" target-dir="libs/mips/" />
-    <source-file src="src/android/libs/mips64/libhello-jni.so" target-dir="libs/mips64/" />
-    <source-file src="src/android/libs/x86/libhello-jni.so" target-dir="libs/x86/" />
-    <source-file src="src/android/libs/x86_64/libhello-jni.so" target-dir="libs/x86_64/" />
+    <source-file src="src/android/libs/arm64-v8a/libhelloc.so" target-dir="libs/arm64-v8a/" />
+    <source-file src="src/android/libs/armeabi/libhelloc.so" target-dir="libs/armeabi/" />
+    <source-file src="src/android/libs/armeabi-v7a/libhelloc.so" target-dir="libs/armeabi-v7a/" />
+    <source-file src="src/android/libs/mips/libhelloc.so" target-dir="libs/mips/" />
+    <source-file src="src/android/libs/mips64/libhelloc.so" target-dir="libs/mips64/" />
+    <source-file src="src/android/libs/x86/libhelloc.so" target-dir="libs/x86/" />
+    <source-file src="src/android/libs/x86_64/libhelloc.so" target-dir="libs/x86_64/" />
   </platform>
 
   <platform name="ios">
 
     <config-file target="config.xml" parent="/widget">
-      <feature name="Hello">
-        <param name="ios-package" value="HWPHello" />
+      <feature name="HelloCPlugin">
+        <param name="ios-package" value="HelloCPlugin" />
       </feature>
     </config-file>
 
-    <header-file src="src/ios/HWPHello.h" target-dir="HelloPlugin"/>
-    <source-file src="src/ios/HWPHello.m" target-dir="HelloPlugin"/>
-    <header-file src="src/ios/test.h" target-dir="HelloPlugin"/>
-    <source-file src="src/ios/test.c" target-dir="HelloPlugin"/>
+    <header-file src="src/ios/HelloCPlugin.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/ios/HelloCPlugin.m" target-dir="HelloCPlugin"/>
+    <header-file src="src/ios/c_getArch.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/ios/c_getArch.c" target-dir="HelloCPlugin"/>
+    <header-file src="src/common/hello.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/common/hello.c" target-dir="HelloCPlugin"/>
   </platform>
 </plugin>
