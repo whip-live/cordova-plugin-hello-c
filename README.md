@@ -1,9 +1,13 @@
 cordova-plugin-hello-c
 ======================
 
-A simple example of a Cordova plugin that utilizes the Android NDK
+A simple example of a Cordova plugin that uses pure C code.
 
-This plugin combines don/Cordova-plugin-hello and the hello-jni android NDK example to create a very simple example of a Cordova plugin that uses the android NDK.
+It illustrates how to use platform-specific (either Android or iOS) C code and how to share C code cross-platform (between Android and iOS).
+
+For Android it utilizes the Android NDK to compile architecture-specific libraries and a JNI wrapper to expose the C functions to the Java plugin API.
+
+For iOS it uses the pure C source code in place alongside the Objective-C plugin wrapper.
 
 # usage example
 
