@@ -29,14 +29,14 @@ To do so:
     - e.g. `export PATH=$PATH;$ANDROID_SDK_HOME/ndk-bundle`
 - Set the ANDROID_NDK_HOME environment variable to your NDK install path
     - e.g. `export ANDROID_NDK_HOME=$ANDROID_SDK_HOME/ndk-bundle`
-- Open terminal in `cordova-plugin-hello-c/src/android`
-- Run `ndk-build` (`ndk-build.cmd` on Windows)
+- Open terminal in plugin root folder
+- Run `compile-android` (`compile-android.cmd` on Windows)
 
 If you are editing the C source code of the plugin in place in the example project:
 
 - Modify the C source in `plugins/cordova-plugin-hello-c/src/android/jni` or `plugins/cordova-plugin-hello-c/src/common`
-- Open terminal in `plugins/cordova-plugin-hello-c/src/android`
-- Run `ndk-build` (`ndk-build.cmd` on Windows)
+- Open terminal in `plugins/cordova-plugin-hello-c`
+- Run `compile-android` (`compile-android.cmd` on Windows)
 - From the project root, remove and re-add the android platform to apply the plugin changes to the project
     `cordova platform rm android && cordova platform add android`
 
