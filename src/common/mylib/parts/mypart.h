@@ -1,14 +1,14 @@
 //
-//  mycomponent.h
+//  mypart.h
 //  Cross-platform C library component
 //
 
-#ifndef mycomponent
-#define mycomponent
+#ifndef mypart
+#define mypart
 
 #include <stdio.h>
 
 // a function prototype for a function internal to the library:
-int sum(int y, int z);
+int multiply(int y, int z);
 
-#endif /* mycomponent */
+#endif /* mypart */

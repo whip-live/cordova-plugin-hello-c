@@ -5,6 +5,7 @@
 
 #include "mylib.h"
 #include "mycomponent.h"
+#include "mypart.h"
 #include <stdlib.h>
 
 int main(){
@@ -12,5 +13,5 @@ int main(){
 }
 
 int calculate(int y, int z) {
-    return sum(y,z)*z;
+    return multiply(sum(y,z),z);
 }

@@ -52,3 +52,14 @@ Java_com_example_HelloCJni_hello( JNIEnv* env, jobject thiz, jstring j_input)
     char* output = c_hello(c_input);
     return (*env)->NewStringUTF(env, output);
 }
+
+// Android JNI wrapper for cross-platform C library
+jstring
+Java_com_example_HelloCJni_calculate( JNIEnv* env, jobject thiz, jint j_x, jint j_y)
+{
+    // Call the cross-platform shared C function
+    int x = (int) j_x;
+    int y = (int) j_y;
+    int result = calculate(x, y);
+    return result;
+}

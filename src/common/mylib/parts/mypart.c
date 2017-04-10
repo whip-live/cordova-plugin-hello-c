@@ -1,11 +1,11 @@
 //
-//  mycomponent.c
+//  mypart.c
 //  Cross-platform C library component
 //
 
-#include "mycomponent.h"
+#include "mypart.h"
 #include <stdlib.h>
 
-int sum(int y, int z) {
-    return y+z;
+int multiply(int y, int z) {
+    return y*z;
 }

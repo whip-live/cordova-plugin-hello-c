@@ -29,7 +29,13 @@ public class HelloCPlugin extends CordovaPlugin {
                 String output = "Android " + jniOutput;
                 callbackContext.success(output);
 
-            } else {
+            } else if (action.equals("calculate")) {
+                int x = data.getInt(0);
+                int y = data.getInt(1);
+                int jniOutput = HelloCJni.calculate(x,y);
+                callbackContext.success(jniOutput);
+            }
+            else {
                 handleError("Invalid action");
                 result = false;
             }

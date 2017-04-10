@@ -47,8 +47,16 @@
 
     <!-- C source files -->
     <source-file src="src/android/jni/HelloCJni.c" target-dir="src/c/android/jni/"/>
+
     <source-file src="src/common/hello.h" target-dir="src/c/common/"/>
     <source-file src="src/common/hello.c" target-dir="src/c/common/"/>
+
+    <source-file src="src/common/mylib/mylib.h" target-dir="src/c/common/mylib"/>
+    <source-file src="src/common/mylib/mylib.c" target-dir="src/c/common/mylib"/>
+    <source-file src="src/common/mylib/mycomponent.h" target-dir="src/c/common/mylib"/>
+    <source-file src="src/common/mylib/mycomponent.c" target-dir="src/c/common/mylib"/>
+    <source-file src="src/common/mylib/parts/mypart.h" target-dir="src/c/common/mylib/parts"/>
+    <source-file src="src/common/mylib/parts/mypart.c" target-dir="src/c/common/mylib/parts"/>
     <!-- END DEBUG -->
 
   </platform>
@@ -68,7 +76,15 @@
     <!-- C source files -->
     <header-file src="src/ios/c_getArch.h" target-dir="HelloCPlugin"/>
     <source-file src="src/ios/c_getArch.c" target-dir="HelloCPlugin"/>
+
     <header-file src="src/common/hello.h" target-dir="HelloCPlugin"/>
     <source-file src="src/common/hello.c" target-dir="HelloCPlugin"/>
+
+    <header-file src="src/common/mylib/mylib.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/common/mylib/mylib.c" target-dir="HelloCPlugin"/>
+    <header-file src="src/common/mylib/mycomponent.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/common/mylib/mycomponent.c" target-dir="HelloCPlugin"/>
+    <header-file src="src/common/mylib/parts/mypart.h" target-dir="HelloCPlugin"/>
+    <source-file src="src/common/mylib/parts/mypart.c" target-dir="HelloCPlugin"/>
   </platform>
 </plugin>
