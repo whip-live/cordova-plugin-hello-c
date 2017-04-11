@@ -7,7 +7,7 @@ It illustrates how to use platform-specific (either Android or iOS) C code and h
 
 For Android it utilizes the Android NDK to compile architecture-specific libraries and a JNI wrapper to expose the C functions to the Java plugin API.
 
-For iOS it uses the pure C source code in place alongside the Objective-C plugin wrapper.
+For iOS it uses the pure C source code in place alongside the Objective-C plugin wrapper, as well as an example cross-platform library compiled as a static library for iOS.
 
 # usage example
 
@@ -46,7 +46,7 @@ For iOS it uses the pure C source code in place alongside the Objective-C plugin
 # Recompiling libraries
 If you modify the C source files, be sure to re-build the compiled libraries.
 
-# Android
+## Android
 
 You can re-build the `libhelloc.so` binaries using the ndk-build script.
 
@@ -69,7 +69,7 @@ If you are editing the C source code of the plugin in place in the example proje
 - From the project root, remove and re-add the android platform to apply the plugin changes to the project
     `cordova platform rm android && cordova platform add android`
     
-# iOS
+## iOS
 If you modify the C source code in `common/mylib/` you'll need to rebuild the static library and headers in `src/ios/libs`.
 
 - Open terminal in plugin root folder
