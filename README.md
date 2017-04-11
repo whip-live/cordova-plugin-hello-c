@@ -73,8 +73,15 @@ If you are editing the C source code of the plugin in place in the example proje
 If you modify the C source code in `common/mylib/` you'll need to rebuild the static library and headers in `src/ios/libs`.
 
 - Open terminal in plugin root folder
-- Run `./compile-android` (`compile-android.cmd` on Windows)
+- Run `./compile-ios`
 
+If you are editing the C source code of the plugin in place in the example project:
+
+- Modify the C source in `plugins/cordova-plugin-hello-c/src/ios/` or `plugins/cordova-plugin-hello-c/src/common`
+- Open terminal in `plugins/cordova-plugin-hello-c`
+- Run `./compile-ios`
+- From the project root, remove and re-add the platform to apply the plugin changes to the project
+    `cordova platform rm ios && cordova platform add ios`
 
 # Debugging C source code
  
