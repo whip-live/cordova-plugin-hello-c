@@ -80,11 +80,25 @@
     <header-file src="src/common/hello.h" target-dir="HelloCPlugin"/>
     <source-file src="src/common/hello.c" target-dir="HelloCPlugin"/>
 
-    <header-file src="src/common/mylib/mylib.h" target-dir="HelloCPlugin"/>
-    <source-file src="src/common/mylib/mylib.c" target-dir="HelloCPlugin"/>
-    <header-file src="src/common/mylib/mycomponent.h" target-dir="HelloCPlugin"/>
-    <source-file src="src/common/mylib/mycomponent.c" target-dir="HelloCPlugin"/>
-    <header-file src="src/common/mylib/parts/mypart.h" target-dir="HelloCPlugin"/>
-    <source-file src="src/common/mylib/parts/mypart.c" target-dir="HelloCPlugin"/>
+    <!-- PRODUCTION - comment out source files below for debugging -->
+    <!-- Compiled C libraries -->
+    <source-file src="src/ios/libs/libmylib.a" framework="true" />
+    <!-- C header files -->
+    <header-file src="src/ios/libs/headers/mylib.h" target-dir="HelloCPlugin"/>
+    <header-file src="src/ios/libs/headers/mycomponent.h" target-dir="HelloCPlugin"/>
+    <header-file src="src/ios/libs/headers/mypart.h" target-dir="HelloCPlugin"/>
+    <!-- END PRODUCTION -->
+
+    <!-- DEBUG - these files are not needed for production - comment in for debugging -->
+    <!-- C source files -->
+    <!--<header-file src="src/common/mylib/mylib.h" target-dir="HelloCPlugin"/>-->
+    <!--<source-file src="src/common/mylib/mylib.c" target-dir="HelloCPlugin"/>-->
+    <!--<header-file src="src/common/mylib/mycomponent.h" target-dir="HelloCPlugin"/>-->
+    <!--<source-file src="src/common/mylib/mycomponent.c" target-dir="HelloCPlugin"/>-->
+    <!--<header-file src="src/common/mylib/parts/mypart.h" target-dir="HelloCPlugin"/>-->
+    <!--<source-file src="src/common/mylib/parts/mypart.c" target-dir="HelloCPlugin"/>-->
+    <!-- END DEBUG -->
+
+
   </platform>
 </plugin>
