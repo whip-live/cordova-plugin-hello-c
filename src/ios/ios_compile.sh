@@ -7,6 +7,8 @@ export SRC_ROOT="../common/mylib"
 IPHONEOS_DEPLOYMENT_TARGET="8.0"
 pwd=`pwd`
 TEMP_DIR="$pwd/temp"
+OUTPUT_DIR="$pwd/libs"
+HEADERS_DIR="$OUTPUT_DIR/headers"
 
 LIPO_INPUTS=""
 
@@ -68,7 +70,7 @@ buildit()
     LIPO_INPUTS="$LIPO_INPUTS $TARGET_DIR/$LIB_FILENAME" 
     
 }
-
+mkdir -p $TEMP_DIR $HEADERS_DIR
 cp `find $SRC_ROOT -type f \( -name "*.c" -or -name "*.h" \)` $TEMP_DIR
 
 findLatestSDKVersion iPhoneOS
@@ -80,6 +82,8 @@ buildit i386 iPhoneSimulator
 buildit x86_64 iPhoneSimulator
 
 LIPO=$(xcrun -sdk iphoneos -find lipo)
-$LIPO -create $LIPO_INPUTS -output lib$LIBNAME.a
+$LIPO -create $LIPO_INPUTS -output $OUTPUT_DIR/lib$LIBNAME.a
 
-rm -Rf temp
+mv $TEMP_DIR/*.h $HEADERS_DIR
+
+rm -Rf $TEMP_DIR
