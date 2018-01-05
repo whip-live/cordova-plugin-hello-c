@@ -1,2 +1,3 @@
 cd src/android
+cp jni/Android.mk.osx jni/Android.mk
 ndk-build
