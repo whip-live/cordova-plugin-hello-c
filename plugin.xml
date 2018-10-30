@@ -17,25 +17,25 @@
 
   <platform name="android">
 
-    <config-file target="res/xml/config.xml" parent="/*">
+    <config-file target="app/src/main/res/xml/config.xml" parent="/*">
       <feature name="HelloCPlugin">
         <param name="android-package" value="com.example.HelloCPlugin"/>
       </feature>
     </config-file>
 
     <!-- Java plugin API -->
-    <source-file src="src/android/HelloCPlugin.java" target-dir="src/com/example/"/>
-    <source-file src="src/android/HelloCJni.java" target-dir="src/com/example/" />
+    <source-file src="src/android/HelloCPlugin.java" target-dir="app/src/main/java/com/example/"/>
+    <source-file src="src/android/HelloCJni.java" target-dir="app/src/main/java/com/example/" />
 
     <!-- PRODUCTION - comment out source files below for debugging -->
     <!-- Compiled C libraries -->
-    <source-file src="src/android/libs/arm64-v8a/libhelloc.so" target-dir="libs/arm64-v8a/" />
-    <source-file src="src/android/libs/armeabi/libhelloc.so" target-dir="libs/armeabi/" />
-    <source-file src="src/android/libs/armeabi-v7a/libhelloc.so" target-dir="libs/armeabi-v7a/" />
-    <source-file src="src/android/libs/mips/libhelloc.so" target-dir="libs/mips/" />
-    <source-file src="src/android/libs/mips64/libhelloc.so" target-dir="libs/mips64/" />
-    <source-file src="src/android/libs/x86/libhelloc.so" target-dir="libs/x86/" />
-    <source-file src="src/android/libs/x86_64/libhelloc.so" target-dir="libs/x86_64/" />
+    <source-file src="src/android/libs/arm64-v8a/libhelloc.so" target-dir="lib/arm64-v8a/" />
+    <source-file src="src/android/libs/armeabi/libhelloc.so" target-dir="lib/armeabi/" />
+    <source-file src="src/android/libs/armeabi-v7a/libhelloc.so" target-dir="lib/armeabi-v7a/" />
+    <source-file src="src/android/libs/mips/libhelloc.so" target-dir="lib/mips/" />
+    <source-file src="src/android/libs/mips64/libhelloc.so" target-dir="lib/mips64/" />
+    <source-file src="src/android/libs/x86/libhelloc.so" target-dir="lib/x86/" />
+    <source-file src="src/android/libs/x86_64/libhelloc.so" target-dir="lib/x86_64/" />
     <!-- END PRODUCTION -->
 
     <!-- DEBUG - these files are not needed for production -->
@@ -43,20 +43,20 @@
     <source-file src="src/android/build-extras.gradle" target-dir="."/>
 
     <!-- NDK Make file for source references for C debugging -->
-    <source-file src="src/android/jni/Android.mk" target-dir="src/c/android/jni/"/>
+    <source-file src="src/android/jni/Android.mk" target-dir="app/src/main/java/c/android/jni/"/>
 
     <!-- C source files -->
-    <source-file src="src/android/jni/HelloCJni.c" target-dir="src/c/android/jni/"/>
+    <source-file src="src/android/jni/HelloCJni.c" target-dir="app/src/main/java/c/android/jni/"/>
 
-    <source-file src="src/common/hello.h" target-dir="src/c/common/"/>
-    <source-file src="src/common/hello.c" target-dir="src/c/common/"/>
+    <source-file src="src/common/hello.h" target-dir="app/src/main/java/c/common/"/>
+    <source-file src="src/common/hello.c" target-dir="app/src/main/java/c/common/"/>
 
-    <source-file src="src/common/mylib/mylib.h" target-dir="src/c/common/mylib"/>
-    <source-file src="src/common/mylib/mylib.c" target-dir="src/c/common/mylib"/>
-    <source-file src="src/common/mylib/mycomponent.h" target-dir="src/c/common/mylib"/>
-    <source-file src="src/common/mylib/mycomponent.c" target-dir="src/c/common/mylib"/>
-    <source-file src="src/common/mylib/parts/mypart.h" target-dir="src/c/common/mylib/parts"/>
-    <source-file src="src/common/mylib/parts/mypart.c" target-dir="src/c/common/mylib/parts"/>
+    <source-file src="src/common/mylib/mylib.h" target-dir="app/src/main/java/c/common/mylib"/>
+    <source-file src="src/common/mylib/mylib.c" target-dir="app/src/main/java/c/common/mylib"/>
+    <source-file src="src/common/mylib/mycomponent.h" target-dir="app/src/main/java/c/common/mylib"/>
+    <source-file src="src/common/mylib/mycomponent.c" target-dir="app/src/main/java/c/common/mylib"/>
+    <source-file src="src/common/mylib/parts/mypart.h" target-dir="app/src/main/java/c/common/mylib/parts"/>
+    <source-file src="src/common/mylib/parts/mypart.c" target-dir="app/src/main/java/c/common/mylib/parts"/>
     <!-- END DEBUG -->
 
   </platform>
