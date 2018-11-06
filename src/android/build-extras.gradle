@@ -1,12 +1,12 @@
 android {
     packagingOptions {
-        pickFirst 'lib/arm64-v8a/libhelloc.so'
-        pickFirst 'lib/armeabi/libhelloc.so'
-        pickFirst 'lib/armeabi-v7a/libhelloc.so'
-        pickFirst 'lib/mips/libhelloc.so'
-        pickFirst 'lib/mips64/libhelloc.so'
-        pickFirst 'lib/x86/libhelloc.so'
-        pickFirst 'lib/x86_64/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/arm64-v8a/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/armeabi/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/armeabi-v7a/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/mips/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/mips64/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/x86/libhelloc.so'
+        pickFirst 'app/src/main/jniLibs/x86_64/libhelloc.so'
     }
     defaultConfig {
         externalNativeBuild {

@@ -29,13 +29,13 @@
 
     <!-- PRODUCTION - comment out source files below for debugging -->
     <!-- Compiled C libraries -->
-    <source-file src="src/android/libs/arm64-v8a/libhelloc.so" target-dir="lib/arm64-v8a/" />
-    <source-file src="src/android/libs/armeabi/libhelloc.so" target-dir="lib/armeabi/" />
-    <source-file src="src/android/libs/armeabi-v7a/libhelloc.so" target-dir="lib/armeabi-v7a/" />
-    <source-file src="src/android/libs/mips/libhelloc.so" target-dir="lib/mips/" />
-    <source-file src="src/android/libs/mips64/libhelloc.so" target-dir="lib/mips64/" />
-    <source-file src="src/android/libs/x86/libhelloc.so" target-dir="lib/x86/" />
-    <source-file src="src/android/libs/x86_64/libhelloc.so" target-dir="lib/x86_64/" />
+    <source-file src="src/android/libs/arm64-v8a/libhelloc.so" target-dir="app/src/main/jniLibs/arm64-v8a/" />
+    <source-file src="src/android/libs/armeabi/libhelloc.so" target-dir="app/src/main/jniLibs/armeabi/" />
+    <source-file src="src/android/libs/armeabi-v7a/libhelloc.so" target-dir="app/src/main/jniLibs/armeabi-v7a/" />
+    <source-file src="src/android/libs/mips/libhelloc.so" target-dir="app/src/main/jniLibs/mips/" />
+    <source-file src="src/android/libs/mips64/libhelloc.so" target-dir="app/src/main/jniLibs/mips64/" />
+    <source-file src="src/android/libs/x86/libhelloc.so" target-dir="app/src/main/jniLibs/x86/" />
+    <source-file src="src/android/libs/x86_64/libhelloc.so" target-dir="app/src/main/jniLibs/x86_64/" />
     <!-- END PRODUCTION -->
 
     <!-- DEBUG - these files are not needed for production -->
