@@ -65,6 +65,7 @@ If you are editing the C source code of the plugin in place in the example proje
 
 - Modify the C source in `plugins/cordova-plugin-hello-c/src/android/jni` or `plugins/cordova-plugin-hello-c/src/common`
 - Open terminal in `plugins/cordova-plugin-hello-c`
+- Delete `src/android/libs` and `src/android/obj`
 - Run `compile-android` (`compile-android.cmd` on Windows)
 - From the project root, remove and re-add the android platform to apply the plugin changes to the project
     `cordova platform rm android && cordova platform add android`

@@ -1,5 +1,7 @@
 # Android Makefile
 
+APP_PLATFORM := android-19
+
 ifeq ($(OS),Windows_NT)
 	PATH_SEP := \ 
 else

@@ -1,10 +1,7 @@
 android {
     packagingOptions {
         pickFirst 'app/src/main/jniLibs/arm64-v8a/libhelloc.so'
-        pickFirst 'app/src/main/jniLibs/armeabi/libhelloc.so'
         pickFirst 'app/src/main/jniLibs/armeabi-v7a/libhelloc.so'
-        pickFirst 'app/src/main/jniLibs/mips/libhelloc.so'
-        pickFirst 'app/src/main/jniLibs/mips64/libhelloc.so'
         pickFirst 'app/src/main/jniLibs/x86/libhelloc.so'
         pickFirst 'app/src/main/jniLibs/x86_64/libhelloc.so'
     }

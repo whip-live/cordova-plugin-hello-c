@@ -6,8 +6,8 @@
 #include <hello.h>
 
 // Platform-specific C implementation to get current CPU architecture
-jstring
-Java_com_example_HelloCJni_getArch( JNIEnv* env, jobject thiz )
+JNIEXPORT jstring JNICALL
+Java_com_example_HelloCJni_getArch( JNIEnv* env, jclass thiz )
 {
 #if defined(__arm__)
   #if defined(__ARM_ARCH_7A__)
@@ -44,8 +44,8 @@ Java_com_example_HelloCJni_getArch( JNIEnv* env, jobject thiz )
 }
 
 // Android JNI wrapper for cross-platform C implementation
-jstring
-Java_com_example_HelloCJni_hello( JNIEnv* env, jobject thiz, jstring j_input)
+JNIEXPORT jstring JNICALL
+Java_com_example_HelloCJni_hello( JNIEnv* env, jclass thiz, jstring j_input)
 {
     // Call the cross-platform shared C function
     char* c_input = strdup((*env)->GetStringUTFChars(env, j_input, 0));
@@ -54,8 +54,8 @@ Java_com_example_HelloCJni_hello( JNIEnv* env, jobject thiz, jstring j_input)
 }
 
 // Android JNI wrapper for cross-platform C library
-jstring
-Java_com_example_HelloCJni_calculate( JNIEnv* env, jobject thiz, jint j_x, jint j_y)
+JNIEXPORT jstring JNICALL
+Java_com_example_HelloCJni_calculate( JNIEnv* env, jclass thiz, jint j_x, jint j_y)
 {
     // Call the cross-platform shared C function
     int x = (int) j_x;
