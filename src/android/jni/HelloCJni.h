@@ -13,7 +13,7 @@ extern "C" {
  * Method:    getArch
  * Signature: ()Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch (JNIEnv *, jclass);
+//JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch (JNIEnv *, jclass);
 /*
  * Class:     com_example_HelloCJni
  * Method:    hello
@@ -28,7 +28,7 @@ JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_hello (JNIEnv *, jclass, js
  * Method:    calculate
  * Signature: (II)I
  */
-JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_calculate (JNIEnv *, jclass, jint, jint);
+//JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_calculate (JNIEnv *, jclass, jint, jint);
 
 
 #ifdef __cplusplus

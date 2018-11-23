@@ -11,20 +11,20 @@ public class HelloCPlugin extends CordovaPlugin {
 
     protected static final String TAG = "HelloCPlugin";
     protected CallbackContext context;
-
+    
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         context = callbackContext;
         boolean result = true;
         try {
             if (action.equals("hello")) {
-
-                String input = data.getString(0);
-                String jniOutput = HelloCJni.hello(input);
+                
+                String mp4 = data.getString(0);
+                String jniOutput = HelloCJni.hello(mp4);
                 String output = "Android says: " + jniOutput;
                 callbackContext.success(output);
 
-            } else if (action.equals("getArch")) {
+            } /*else if (action.equals("getArch")) {
                 String jniOutput = HelloCJni.getArch();
                 String output = "Android " + jniOutput;
                 callbackContext.success(output);
@@ -34,7 +34,7 @@ public class HelloCPlugin extends CordovaPlugin {
                 int y = data.getInt(1);
                 int jniOutput = HelloCJni.calculate(x,y);
                 callbackContext.success(jniOutput);
-            }
+            }*/
             else {
                 handleError("Invalid action");
                 result = false;

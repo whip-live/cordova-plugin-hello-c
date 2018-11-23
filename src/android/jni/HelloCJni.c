@@ -6,7 +6,7 @@
 #include <HelloCJni.h>
 
 // Platform-specific C implementation to get current CPU architecture
-JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch( JNIEnv* env, jclass thiz )
+/*JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch( JNIEnv* env, jclass thiz )
 {
 #if defined(__arm__)
   #if defined(__ARM_ARCH_7A__)
@@ -30,7 +30,7 @@ JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch( JNIEnv* env, jclas
    #define ABI "x86"
 #elif defined(__x86_64__)
    #define ABI "x86_64"
-#elif defined(__mips64)  /* mips64el-* toolchain defines __mips__ too */
+#elif defined(__mips64)  // mips64el-* toolchain defines __mips__ too
    #define ABI "mips64"
 #elif defined(__mips__)
    #define ABI "mips"
@@ -40,7 +40,7 @@ JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_getArch( JNIEnv* env, jclas
    #define ABI "unknown"
 #endif
     return (*env)->NewStringUTF(env, ABI);
-}
+}*/
 
 // Android JNI wrapper for cross-platform C implementation
 JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_hello( JNIEnv* env, jclass thiz, jstring j_input)
@@ -52,11 +52,11 @@ JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_hello( JNIEnv* env, jclass 
 }
 
 // Android JNI wrapper for cross-platform C library
-JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_calculate( JNIEnv* env, jclass thiz, jint j_x, jint j_y)
+/*JNIEXPORT jstring JNICALL Java_com_example_HelloCJni_calculate( JNIEnv* env, jclass thiz, jint j_x, jint j_y)
 {
     // Call the cross-platform shared C function
     int x = (int) j_x;
     int y = (int) j_y;
     int result = calculate(x, y);
     return result;
-}
+}*/

@@ -44,7 +44,7 @@
 
     <!-- DEBUG - these files are not needed for production -->
     <!-- Custom gradle file to setup NDK for debugging -->
-    <source-file src="src/android/build-extras.gradle" target-dir="."/>
+    <source-file src="src/android/build-extras.gradle" target-dir="app/"/>
 
     <!-- NDK Make file for source references for C debugging -->
     <source-file src="src/android/jni/Android.mk" target-dir="app/src/main/java/c/android/jni/"/>
@@ -54,13 +54,11 @@
 
     <source-file src="src/common/hello.h" target-dir="app/src/main/java/c/common/"/>
     <source-file src="src/common/hello.c" target-dir="app/src/main/java/c/common/"/>
-
-    <source-file src="src/common/mylib/mylib.h" target-dir="app/src/main/java/c/common/mylib"/>
-    <source-file src="src/common/mylib/mylib.c" target-dir="app/src/main/java/c/common/mylib"/>
-    <source-file src="src/common/mylib/mycomponent.h" target-dir="app/src/main/java/c/common/mylib"/>
-    <source-file src="src/common/mylib/mycomponent.c" target-dir="app/src/main/java/c/common/mylib"/>
-    <source-file src="src/common/mylib/parts/mypart.h" target-dir="app/src/main/java/c/common/mylib/parts"/>
-    <source-file src="src/common/mylib/parts/mypart.c" target-dir="app/src/main/java/c/common/mylib/parts"/>
+    <source-file src="src/common/GPMF_mp4reader.h" target-dir="app/src/main/java/c/common/"/>
+    <source-file src="src/common/GPMF_mp4reader.c" target-dir="app/src/main/java/c/common/"/>
+    <source-file src="src/common/GPMF_parser.h" target-dir="app/src/main/java/c/common/"/>
+    <source-file src="src/common/GPMF_parser.c" target-dir="app/src/main/java/c/common/"/>
+    <source-file src="src/common/GPMF_print.c" target-dir="app/src/main/java/c/common/"/>
     <!-- END DEBUG -->
 
   </platform>
