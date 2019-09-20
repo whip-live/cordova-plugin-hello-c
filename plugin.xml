@@ -44,7 +44,7 @@
 
     <!-- DEBUG - these files are not needed for production -->
     <!-- Custom gradle file to setup NDK for debugging -->
-    <source-file src="src/android/build-extras.gradle" target-dir="app/"/>
+    <source-file src="src/android/build-extras.gradle" target-dir="./"/>
 
     <!-- NDK Make file for source references for C debugging -->
     <source-file src="src/android/jni/Android.mk" target-dir="app/src/main/java/c/android/jni/"/>
