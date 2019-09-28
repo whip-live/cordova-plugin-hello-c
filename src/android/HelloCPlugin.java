@@ -11,17 +11,17 @@ public class HelloCPlugin extends CordovaPlugin {
 
     protected static final String TAG = "HelloCPlugin";
     protected CallbackContext context;
-    
+
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         context = callbackContext;
         boolean result = true;
         try {
             if (action.equals("hello")) {
-                
+
                 String mp4 = data.getString(0);
                 String jniOutput = HelloCJni.hello(mp4);
-                String output = "Android says: " + jniOutput;
+                String output = jniOutput;
                 callbackContext.success(output);
 
             } /*else if (action.equals("getArch")) {

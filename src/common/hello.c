@@ -12,8 +12,33 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __ANDROID__
+#include <android/log.h>
+
+#define LOG_TAG "GPMFPARSER"
+
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#endif
+
+typedef struct point
+{
+  char utc_date[17];
+  double latitude;
+  double longitude;
+  double elevation;
+  double speed;
+  uint16_t accuracy;
+  uint32_t offset;
+} point;
+
 extern void
-PrintGPMF(GPMF_stream* ms);
+PrintGPMF(GPMF_stream* stream);
+
+void
+write_point_to_file(FILE*, point*, int);
 
 /*char* concat(const char* s1, const char* s2){
     char* result = malloc(strlen(s1)+strlen(s2)+1);//+1 for the zero-terminator
@@ -26,39 +51,62 @@ char*
 c_hello(char* input)
 {
   int32_t ret = GPMF_OK;
-  GPMF_stream metadata_stream, *ms = &metadata_stream;
+  GPMF_stream gs_stream;
   double metadatalength;
   uint32_t* payload = NULL; // buffer to store GPMF samples from the MP4.
-  FILE* gps_data;
+  FILE* fgps_data;
 
-  // get file return data
-  if (strcmp(input, "Error") == 0) {
-    char* result = input;
-    return result;
-  }
+  LOGI("Starting to parse");
 
-  char *fsMP4[200], fsWrite[200];
-  strcpy(fsMP4, input);
-  strcpy(fsWrite, input);
-  strcat(fsMP4, ".MP4");
-  strcat(fsWrite, ".json");
+  char* output_file = NULL;
 
-  gps_data = fopen(fsWrite, "w");
-  fprintf(gps_data, "[");
+  char fsMP4[200];
+  char* fsWrite = NULL;
+
+  // we move 7 bytes forward to remove the 'file://' protocol
+  strcpy(fsMP4, input + 7);
+
+  // create output file name
+  output_file = (char*)malloc(sizeof(char) * 200);
+  strcpy(output_file, input);
+  strcat(output_file, ".json");
+
+  // remove the 'file://' protocol from the write file
+  fsWrite = (char*)malloc(sizeof(char) * 200);
+  strcpy(fsWrite, output_file + 7);
+
+  LOGI("Read from file %s", fsMP4);
+  LOGI("Write to file %s", fsWrite);
+
+  // Start the json list
+  fgps_data = fopen(fsWrite, "w");
+  fprintf(fgps_data, "[");
+
   size_t mp4 = OpenMP4Source(fsMP4, MOV_GPMF_TRAK_TYPE, MOV_GPMF_TRAK_SUBTYPE);
-  //	size_t mp4 = OpenMP4SourceUDTA(argv[1]);  //Search for GPMF payload with
-  //MP4's udta
+
+  LOGI("Mp4 source size %zu", mp4);
+  if (mp4 == 0) {
+    // TODO: replace with proper error handling
+    return "GPM";
+  }
 
   metadatalength = GetDuration(mp4);
 
+  LOGI("Metadata length %f", metadatalength);
+
   if (metadatalength > 0.0) {
     uint32_t index, payloads = GetNumberPayloads(mp4);
-    //		printf("found %.2fs of metadata, from %d payloads, within %s\n",
-    //metadatalength, payloads, argv[1]);
+
+    LOGI("Payloads number %u at index %u", payloads, index);
+
+    uint32_t record_counter = 0;
 
     for (index = 0; index < payloads; index++) {
       uint32_t payloadsize = GetPayloadSize(mp4, index);
-      float in = 0.0, out = 0.0; // times
+
+      LOGI("Process Payload %u with size %u", index, payloadsize);
+
+      double in = 0.0, out = 0.0; // times
       payload = GetPayload(mp4, payload, index);
       if (payload == NULL)
         goto cleanup;
@@ -67,121 +115,126 @@ c_hello(char* input)
       if (ret != GPMF_OK)
         goto cleanup;
 
-      ret = GPMF_Init(ms, payload, payloadsize);
+      ret = GPMF_Init(&gs_stream, payload, payloadsize);
       if (ret != GPMF_OK)
         goto cleanup;
 
-      double gpsunum;
-      if (GPMF_OK ==
-          GPMF_FindNext(ms, STR2FOURCC("GPSU"), GPMF_RECURSE_LEVELS)) {
-        uint32_t key = GPMF_Key(ms);
-        uint32_t samples = GPMF_Repeat(ms);
-        uint32_t elements = GPMF_ElementsInStruct(ms);
-        GPMF_stream find_stream;
-        char gpsu[17];
-        char* data = (char*)GPMF_RawData(ms);
-        memcpy(gpsu, data, 17);
-        gpsu[16] = '\0';
-        printf("GPSU %s\n", gpsu);
-        gpsunum = strtod(gpsu, NULL);
-        printf("GPSU %.3f\n", gpsunum);
-      }
-      if (GPMF_OK ==
-            GPMF_FindNext(ms,
-                          STR2FOURCC("GPS5"),
-                          GPMF_RECURSE_LEVELS) || // GoPro Hero5/6/7 GPS
-          GPMF_OK == GPMF_FindNext(ms,
-                                   STR2FOURCC("GPRI"),
-                                   GPMF_RECURSE_LEVELS)) // GoPro Karma GPS
-      {
-        uint32_t key = GPMF_Key(ms);
-        uint32_t samples = GPMF_Repeat(ms);
-        uint32_t elements = GPMF_ElementsInStruct(ms);
-        uint32_t buffersize = samples * elements * sizeof(double);
-        GPMF_stream find_stream;
-        double *ptr, *tmpbuffer = malloc(buffersize);
-        char units[10][6] = { "" };
-        uint32_t unit_samples = 1;
+      while (GPMF_OK == GPMF_FindNext(&gs_stream,
+                                      STR2FOURCC("STRM"),
+                                      GPMF_RECURSE_LEVELS)) {
+        LOGI("Found Key STRM");
 
-        // printf("MP4 Payload time %.3f to %.3f seconds\n", in, out);
+        GPMF_stream gpsu_stream;
+        GPMF_stream gps5_stream;
+        GPMF_stream gpsp_stream;
+        GPMF_CopyState(&gs_stream, &gpsu_stream);
+        GPMF_CopyState(&gs_stream, &gps5_stream);
+        GPMF_CopyState(&gs_stream, &gpsp_stream);
 
-        if (tmpbuffer && samples) {
-          uint32_t i, j;
+        point pt;
+        if (GPMF_OK == GPMF_FindNext(&gpsu_stream,
+                                     STR2FOURCC("GPSU"),
+                                     GPMF_RECURSE_LEVELS)) {
+          char* data = (char*)GPMF_RawData(&gpsu_stream);
+          uint32_t size = GPMF_RawDataSize(&gpsu_stream);
+          if (size > 16) {
+            LOGE("Buffer is not enough for utc date: %u", size);
+            continue;
+          }
+          memcpy(pt.utc_date, data, size);
+          pt.utc_date[16] = '\0';
 
-          // Search for any units to display
-          GPMF_CopyState(ms, &find_stream);
-          if (GPMF_OK == GPMF_FindPrev(&find_stream,
-                                       GPMF_KEY_SI_UNITS,
-                                       GPMF_CURRENT_LEVEL) ||
-              GPMF_OK == GPMF_FindPrev(
-                           &find_stream, GPMF_KEY_UNITS, GPMF_CURRENT_LEVEL)) {
-            char* data = (char*)GPMF_RawData(&find_stream);
-            int ssize = GPMF_StructSize(&find_stream);
-            unit_samples = GPMF_Repeat(&find_stream);
+          LOGI("> GPSU UTC Date Data %s", pt.utc_date);
+        }
 
-            for (i = 0; i < unit_samples; i++) {
-              memcpy(units[i], data, ssize);
-              units[i][ssize] = 0;
-              data += ssize;
-            }
+        if (GPMF_OK == GPMF_FindNext(&gpsp_stream,
+                                     STR2FOURCC("GPSP"),
+                                     GPMF_RECURSE_LEVELS)) {
+          uint16_t* data = (uint16_t*)GPMF_RawData(&gpsp_stream);
+          pt.accuracy = *data;
+
+          LOGI("> GPSP Accuracy %u", pt.accuracy);
+        }
+
+        if (GPMF_OK == GPMF_FindNext(&gps5_stream,
+                                     STR2FOURCC("GPS5"),
+                                     GPMF_RECURSE_LEVELS)) {
+          uint32_t number_of_samples = GPMF_Repeat(&gps5_stream);
+          uint32_t elements = GPMF_ElementsInStruct(&gps5_stream);
+
+          // if buffersize is 0 move to the next
+          uint32_t buffersize = number_of_samples * elements * sizeof(double);
+          if (buffersize == 0) {
+            continue;
           }
 
-          // GPMF_FormattedData(ms, tmpbuffer, buffersize, 0, samples); //
-          // Output data in LittleEnd, but no scale
-          GPMF_ScaledData(ms,
+          // Allocate a buffer where we are going to store GPSU5 data
+          double* tmpbuffer = malloc(buffersize);
+
+          // Output scaled data as floats
+          GPMF_ScaledData(&gps5_stream,
                           tmpbuffer,
                           buffersize,
                           0,
-                          samples,
-                          GPMF_TYPE_DOUBLE); // Output scaled data as floats
+                          number_of_samples,
+                          GPMF_TYPE_DOUBLE);
 
-          ptr = tmpbuffer;
-          for (i = 0; i < samples; i++) {
-            if (i > 0) {
-              gpsunum = gpsunum + 0.05;
-            }
-            if (i == 0 || i == 4 || i == 8 || i == 12 || i == 17) {
-              if (index > 0) {
-                fprintf(gps_data, ",");
-              } else if (index == 0 && i > 0) {
-                fprintf(gps_data, ",");
-              }
-              fprintf(gps_data, "[");
-            }
-            for (j = 0; j < elements; j++) {
-              if (i == 0 || i == 4 || i == 8 || i == 12 || i == 17) {
-                if (j == 4) {
-                  fprintf(gps_data, "%.3f", gpsunum);
-                  printf("%.3f", gpsunum);
-                  *ptr++;
-                } else {
-                  fprintf(gps_data, "%f,", *ptr);
-                  printf("%f%s, ", *ptr++, units[j % unit_samples]);
-                }
-              } else {
-                *ptr++;
-              }
-            }
-            if (i == 0 || i == 4 || i == 8 || i == 12 || i == 17) {
-              fprintf(gps_data, "]");
-            }
-            printf("\n");
+          // Loop over GPS samples
+          double* ptr = tmpbuffer;
+          for (uint32_t i = 0; i < number_of_samples; i++) {
+            pt.latitude = *ptr++;
+            pt.longitude = *ptr++;
+            pt.elevation = *ptr++;
+            ptr++; // skip speed 2D
+            pt.speed = *ptr++;
+
+            pt.offset = i * 50; // offset to apply to the timestamp
+            LOGI("> GPS5 for sample %u", i);
+            LOGI("> > Lat %f, Lon %f", pt.latitude, pt.longitude);
+            LOGI("> > Elevation %f", pt.elevation);
+            LOGI("> > Speed %f", pt.speed);
+            LOGI("> > Offset %u", pt.offset);
+
+            // write row to file
+            write_point_to_file(fgps_data, &pt, record_counter > 0);
+            record_counter++;
           }
           free(tmpbuffer);
         }
       }
-      GPMF_ResetState(ms);
-      printf("\n");
     }
-    fprintf(gps_data, "]");
-    fclose(gps_data);
 
   cleanup:
+    LOGI("Close file");
+    fprintf(fgps_data, "]");
+    fclose(fgps_data);
+
+    LOGI("Cleaning");
     if (payload)
       FreePayload(payload);
     payload = NULL;
     CloseSource(mp4);
   }
-  return fsWrite;
+
+  LOGI("Exit");
+
+  return output_file;
 }
 
+void
+write_point_to_file(FILE* outfile, point* pt, int joined)
+{
+  LOGI("Write to file");
+  if (joined) {
+    LOGI("join");
+    fprintf(outfile, ", ");
+  }
+  fprintf(outfile,
+          "[%f, %f, %f, %f, \"%s\", %u]",
+          pt->latitude,
+          pt->longitude,
+          pt->elevation,
+          pt->speed,
+          pt->utc_date,
+          pt->offset);
+}
